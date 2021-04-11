@@ -3,7 +3,25 @@ package u06lab.code
 /**
   * 1) Implement trait Functions with an object FunctionsImpl such that the code
   * in TryFunctions works correctly.
-  *
+ */
+
+trait Functions {
+  def sum(a: List[Double]): Double
+  def concat(a: Seq[String]): String
+  def max(a: List[Int]): Int // gives Int.MinValue if a is empty
+}
+
+object FunctionsImpl extends Functions {
+
+  override def sum(a: List[Double]): Double = ???
+
+  override def concat(a: Seq[String]): String = ???
+
+  override def max(a: List[Int]): Int = ???
+}
+
+
+/*
   * 2) To apply DRY principle at the best,
   * note the three methods in Functions do something similar.
   * Use the following approach:
@@ -16,25 +34,9 @@ package u06lab.code
   * When all works, note we completely avoided duplications..
  */
 
-trait Functions {
-  def sum(a: List[Double]): Double
-  def concat(a: Seq[String]): String
-  def max(a: List[Int]): Int // gives Int.MinValue if a is empty
-}
-
 trait Combiner[A] {
   def unit: A
   def combine(a: A, b: A): A
-}
-
-
-object FunctionsImpl extends Functions {
-
-  override def sum(a: List[Double]): Double = ???
-
-  override def concat(a: Seq[String]): String = ???
-
-  override def max(a: List[Int]): Int = ???
 }
 
 object TryFunctions extends App {
