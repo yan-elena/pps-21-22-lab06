@@ -3,7 +3,7 @@ package u06lab.code
 import org.junit.jupiter.api.{Assertions, Test}
 import Assertions._
 
-class TryFunctions {
+class CombinerTests {
   @Test
   def testFunctions() {
     val f: Functions = FunctionsImpl
