@@ -8,19 +8,19 @@ package u06lab.code
 
 abstract class Parser[T]:
   def parse(t: T): Boolean // is the token accepted?
-  def end(): Boolean // is it ok to end here
-  def parseAll(seq: Seq[T]): Boolean = (seq forall parse) & end() // note &, not &&
+  def end: Boolean // is it ok to end here
+  def parseAll(seq: Seq[T]): Boolean = (seq forall parse) & end // note &, not &&
 
 class BasicParser(chars: Set[Char]) extends Parser[Char]:
   override def parse(t: Char): Boolean = chars.contains(t)
-  override def end(): Boolean = true
+  override def end: Boolean = true
 
 trait NonEmpty[T] extends Parser[T]:
   private[this] var empty = true
-  abstract override def parse(t: T) =
+  abstract override def parse(t: T): Boolean =
     empty = false;
     super.parse(t) // who is super??
-  abstract override def end() = !empty && { empty = true; super.end() }
+  abstract override def end: Boolean = !empty && super.end
 
 class NonEmptyParser(chars: Set[Char]) extends BasicParser(chars) with NonEmpty[Char]
 
