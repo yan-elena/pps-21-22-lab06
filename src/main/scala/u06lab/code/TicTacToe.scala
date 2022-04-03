@@ -1,6 +1,6 @@
 package u06lab.code
 
-object TicTacToe:
+object TicTacToe extends App:
   val bound = 2
   enum Player:
     case X, O

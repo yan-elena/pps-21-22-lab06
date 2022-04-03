@@ -29,7 +29,7 @@ trait Combiner[A]:
   def unit: A
   def combine(a: A, b: A): A
 
-object TryFunctions extends App:
+@main def checkFunctions(): Unit =
   val f: Functions = FunctionsImpl
   println(f.sum(List(10.0, 20.0, 30.1))) // 60.1
   println(f.sum(List())) // 0.0
