@@ -23,11 +23,11 @@ object TicTacToe extends App:
   def printBoards(game: Seq[Board]): Unit =
     for
       y <- 0 to bound
-      board <- game
+      board <- game.reverse
       x <- 0 to bound
     do
       print(find(board, x, y) map (_.toString) getOrElse ".")
-      if (x == bound) 
+      if (x == bound)
         print(" ")
         if (board == game.head) println()
 
