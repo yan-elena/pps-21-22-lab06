@@ -11,6 +11,8 @@ abstract class Parser[T]:
   def end: Boolean // is it ok to end here
   def parseAll(seq: Seq[T]): Boolean = (seq forall parse) & end // note &, not &&
 
+object Parsers:
+  val todo = ??? // put the extensions here..
 class BasicParser(chars: Set[Char]) extends Parser[Char]:
   override def parse(t: Char): Boolean = chars.contains(t)
   override def end: Boolean = true
@@ -28,9 +30,7 @@ trait NotTwoConsecutive[T] extends Parser[T]:
   val todo = ???
 // ???
 
-class NotTwoConsecutiveParser(chars: Set[Char]) extends BasicParser(chars):
-  val todo = ???
-// ??? with ...
+class NotTwoConsecutiveParser(chars: Set[Char]) extends BasicParser(chars) // with ????
 
 object TryParsers extends App:
   def parser = new BasicParser(Set('a', 'b', 'c'))

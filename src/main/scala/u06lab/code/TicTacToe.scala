@@ -1,6 +1,7 @@
 package u06lab.code
 
 object TicTacToe:
+  val bound = 2
   enum Player:
     case X, O
     def other: Player = this match
@@ -21,13 +22,14 @@ object TicTacToe:
 
   def printBoards(game: Seq[Board]): Unit =
     for
-      y <- 0 to 2
-      board <- game.reverse
-      x <- 0 to 2
+      y <- 0 to bound
+      board <- game
+      x <- 0 to bound
     do
       print(find(board, x, y) map (_.toString) getOrElse ".")
-      if (x == 2) print(" ")
-      if (board == game.head) println()
+      if (x == bound) 
+        print(" ")
+        if (board == game.head) println()
 
   // Exercise 1: implement find such that..
   println(find(List(Mark(0, 0, X)), 0, 0)) // Some(X)
