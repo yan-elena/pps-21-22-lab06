@@ -41,9 +41,9 @@ object ConnectThree extends App:
       x <- 0 to bound
     do
       print(find(board, x, y).map(_.toString).getOrElse("."))
-      if (x == bound)
+      if x == bound then
         print(" ")
-        if (board == game.head) println()
+        if board == game.head then println()
 
   // Exercise 1: implement find such that..
   println("EX 1: ")
