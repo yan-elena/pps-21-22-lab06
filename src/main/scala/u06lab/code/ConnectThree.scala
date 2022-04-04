@@ -21,8 +21,8 @@ object ConnectThree extends App:
    * 0
    *   0 1 2 3 <-- x
    */
-  type Board = List[Disk]
-  type Game = List[Board]
+  type Board = Seq[Disk]
+  type Game = Seq[Board]
 
   import Player.*
 
