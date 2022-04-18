@@ -9,12 +9,14 @@ trait Functions:
   def concat(a: Seq[String]): String
   def max(a: List[Int]): Int // gives Int.MinValue if a is empty
 
-object FunctionsImpl extends Functions:
-  override def sum(a: List[Double]): Double = combiner(Combiner.DoubleCombiner())(a)
-  override def concat(a: Seq[String]): String = combiner(Combiner.StringCombiner())(a)
-  override def max(a: List[Int]): Int = combiner(Combiner.MaxIntCombiner())(a)
+import Combiners.given
 
-  def combiner[A](c: Combiner[A])(a: Seq[A]): A = a.foldLeft(c.unit)(c.combine)
+object FunctionsImpl extends Functions:
+  override def sum(a: List[Double]): Double = combiner(a)
+  override def concat(a: Seq[String]): String = combiner(a)
+  override def max(a: List[Int]): Int = combiner(a)
+
+  def combiner[A](a: Iterable[A])(using c: Combiner[A]): A = a.foldLeft(c.unit)(c.combine)
 
 /*
  * 2) To apply DRY principle at the best,
@@ -33,17 +35,17 @@ trait Combiner[A]:
   def unit: A
   def combine(a: A, b: A): A
 
-object Combiner:
+object Combiners:
 
-  case class DoubleCombiner() extends Combiner[Double]:
+  given Combiner[Double] with
     override def unit: Double = 0.0
     override def combine(a: Double, b: Double): Double = a + b
 
-  case class StringCombiner() extends Combiner[String]:
+  given Combiner[String] with
     override def unit: String = ""
     override def combine(a: String, b: String): String = a + b
 
-  case class MaxIntCombiner() extends Combiner[Int]:
+  given Combiner[Int] with
     override def unit: Int = Int.MinValue
     override def combine(a: Int, b: Int): Int = Math.max(a, b)
 
