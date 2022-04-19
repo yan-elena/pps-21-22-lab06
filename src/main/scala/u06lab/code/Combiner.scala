@@ -37,8 +37,7 @@ trait Combiner[A]:
 
 object Combiners:
 
-  class CombinerImpl[A](val value: A, val function: (A, A) => A) extends Combiner[A]:
-    def apply[A](value: A, function: (A, A) => A): CombinerImpl[A] = CombinerImpl(value, function)
+  class CombinerImpl[A](value: A, function: (A, A) => A) extends Combiner[A]:
     override def unit: A = value
     override def combine(a: A, b: A): A = function(a, b)
 
