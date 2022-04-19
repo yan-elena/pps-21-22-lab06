@@ -36,18 +36,17 @@ trait Combiner[A]:
   def combine(a: A, b: A): A
 
 object Combiners:
+  
+  class CombinerImpl[A](val u: A, val c: (A, A) => A) extends Combiner[A]:
+    def apply[A](u: A, c: (A, A) => A): CombinerImpl[A] = CombinerImpl(u, c)
+    override def unit: A = u
+    override def combine(a: A, b: A): A = c(a, b)
 
-  given Combiner[Double] with
-    override def unit: Double = 0.0
-    override def combine(a: Double, b: Double): Double = a + b
+  given Combiner[Double] = CombinerImpl(0.0, _ + _)
 
-  given Combiner[String] with
-    override def unit: String = ""
-    override def combine(a: String, b: String): String = a + b
+  given Combiner[String] = CombinerImpl("", _ + _)
 
-  given Combiner[Int] with
-    override def unit: Int = Int.MinValue
-    override def combine(a: Int, b: Int): Int = Math.max(a, b)
+  given Combiner[Int] = CombinerImpl(Int.MinValue, Math.max)
 
 @main def checkFunctions(): Unit =
   val f: Functions = FunctionsImpl
