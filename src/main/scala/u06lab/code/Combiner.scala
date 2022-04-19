@@ -36,11 +36,11 @@ trait Combiner[A]:
   def combine(a: A, b: A): A
 
 object Combiners:
-  
-  class CombinerImpl[A](val u: A, val c: (A, A) => A) extends Combiner[A]:
-    def apply[A](u: A, c: (A, A) => A): CombinerImpl[A] = CombinerImpl(u, c)
-    override def unit: A = u
-    override def combine(a: A, b: A): A = c(a, b)
+
+  class CombinerImpl[A](val value: A, val function: (A, A) => A) extends Combiner[A]:
+    def apply[A](value: A, function: (A, A) => A): CombinerImpl[A] = CombinerImpl(value, function)
+    override def unit: A = value
+    override def combine(a: A, b: A): A = function(a, b)
 
   given Combiner[Double] = CombinerImpl(0.0, _ + _)
 
