@@ -60,12 +60,13 @@ object ConnectThree extends App:
         if isWin(game.head) then game else board +: game).distinct
 
   def isWin(board: Board): Boolean =
-    // row                       column                       diagonal                                anti diagonal
+    // check row                 check column                 check diagonal                          check anti diagonal
     checkWin(board, _.y, _.x) || checkWin(board, _.x, _.y) || checkWin(board, d => d.x + d.y, _.y) || checkWin(board, d => d.x - d.y, _.y)
 
+  val findConsecutive: Seq[Int] => Boolean = s => s.containsSlice(0 until bound) || s.containsSlice(1 to bound)
+
   def checkWin(board: Board, groupBy: Disk => Int, map: Disk => Int) =
-    val findConsecutive: Seq[Int] => Boolean = s => s.containsSlice(0 until bound) || s.containsSlice(1 to bound)
-    board.groupBy(_.player).map(_._2.groupBy(groupBy)).map(_.map(_._2.map(map).sorted(Ordering.Int)).filter(findConsecutive)).exists(_.nonEmpty)
+    board.groupBy(_.player).map(_._2.groupBy(groupBy)).map(_.map(_._2.map(map).sorted).filter(findConsecutive)).exists(_.nonEmpty)
 
   def printBoards(game: Seq[Board]): Unit =
     for
@@ -133,10 +134,10 @@ object ConnectThree extends App:
   for board <- winSeq do
     println(isWin(board)) // true
 
-  val notWinSeq = Seq(Seq(Disk(0, 1, X), Disk(1, 0, X), Disk(2, 0, X), Disk(0, 2, X)), // row
-    Seq(Disk(0, 3, O), Disk(1, 2, O), Disk(0, 1, O), Disk(0, 0, X), Disk(1, 1, O)), // column
-    Seq(Disk(3, 0, X), Disk(2, 2, X), Disk(1, 2, X), Disk(0, 3, O), Disk(0, 2, O)), // anti diagonal
-    Seq(Disk(0, 2, O), Disk(1, 1, O), Disk(2, 2, O), Disk(0, 3, X), Disk(0, 2, O))) // anti diagonal
+  val notWinSeq = Seq(Seq(Disk(0, 1, X), Disk(1, 0, X), Disk(2, 0, X), Disk(0, 2, X)),
+    Seq(Disk(0, 3, O), Disk(1, 2, O), Disk(0, 1, O), Disk(0, 0, X), Disk(1, 1, O)),
+    Seq(Disk(3, 0, X), Disk(2, 2, X), Disk(1, 2, X), Disk(0, 3, O), Disk(0, 2, O)),
+    Seq(Disk(0, 2, O), Disk(1, 1, O), Disk(2, 2, O), Disk(0, 3, X), Disk(0, 2, O)))
 
   printBoards(notWinSeq)
 
